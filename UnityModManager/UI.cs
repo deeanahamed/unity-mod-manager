@@ -91,6 +91,9 @@ namespace UnityModManagerNet
                 Textures.Init();
                 
                 mOSfonts = Font.GetOSInstalledFontNames();
+                Logger.Log($"Found {mOSfonts.Length} OS fonts");
+                foreach (var f in mOSfonts)
+                    Logger.Log($"Font: {f}");
                 if (mOSfonts.Length == 0)
                 {
                     Logger.Error("No compatible font found in OS. If you play through Wine, install winetricks allfonts.");
@@ -100,8 +103,13 @@ namespace UnityModManagerNet
                 {
                     if (string.IsNullOrEmpty(Params.UIFont))
                         Params.UIFont = mDefaultFont;
+                    Logger.Log($"Requested font: {Params.UIFont}");
+                    Logger.Log($"Contains requested font: {mOSfonts.Contains(Params.UIFont)}");
+    
                     if (!mOSfonts.Contains(Params.UIFont))
                         Params.UIFont = mOSfonts.First();
+                    
+                    Logger.Log($"Using font: {Params.UIFont}");
 
                     mSelectedFont = Array.IndexOf(mOSfonts, Params.UIFont);
                 }
